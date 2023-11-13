@@ -16,13 +16,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "vitest related --run"
     }
   },
   "lint-staged": {
     "*.(ts|tsx|js|jsx)": [
-      "prettier --write --ignore-unknown",
-      "vitest related --run"
+      "prettier --write --ignore-unknown"
     ]
   },
   "dependencies": {

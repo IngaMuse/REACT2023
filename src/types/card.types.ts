@@ -1,5 +1,5 @@
 export interface CardsProps {
-  cards: ICard[] | [] | null;
+  cards: ICard[] | [];
 }
 
 export interface CardProps {
@@ -22,4 +22,16 @@ export interface ICard {
   phone?: string;
   bloodGroup?: string;
   eyeColor?: string;
+}
+
+export interface CardsResponse {
+  users: ICard[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export interface GetCardsResponse {
+  cards: ICard[];
+  totalPages: number;
 }

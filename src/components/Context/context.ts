@@ -8,4 +8,4 @@ export const SearchContext = createContext<ISearchContext>([
   search,
   () => null,
 ]);
-export const CardsContext = createContext<ICard[] | null>(null);
+export const CardsContext = createContext<ICard[] | []>([]);

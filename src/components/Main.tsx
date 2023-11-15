@@ -13,7 +13,7 @@ import { CardsContext, SearchContext } from "./Context/context";
 const Main = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [cards, setCards] = useState<ICard[] | null>(null);
+  const [cards, setCards] = useState<ICard[] | []>([]);
   const [search, setSearch] = useState(localStorage.getItem("search") || "");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";

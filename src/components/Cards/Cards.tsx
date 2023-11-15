@@ -14,16 +14,15 @@ const Cards = () => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";
   const limit = searchParams.get("limit") || "30";
-  if (cards == null) return;
   if (cards?.length == 0) {
     return <div className="cards__not">cards not found</div>;
   }
 
   let link = "/?page=" + page;
   if (limit !== "30") link = link + "&limit=" + limit;
-  const cardsList = cards.map((card) => (
-    <Card key={card.id} info={card} details={false} />
-  ));
+  const cardsList =
+    cards &&
+    cards.map((card) => <Card key={card.id} info={card} details={false} />);
 
   return (
     <div className="cards__page">

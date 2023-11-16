@@ -9,8 +9,8 @@ export const cardsSlice = createSlice({
   name: "cards",
   initialState,
   reducers: {
-    // addCard(state, action: PayloadAction<ICard>) {
-    //   state.cards.push(action.payload);
-    // },
+    setCards(state, action: PayloadAction<ICard[]>) {
+      state.cards = action.payload;
+    },
   },
 });

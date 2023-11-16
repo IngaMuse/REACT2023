@@ -1,5 +1,7 @@
-import { cardSlice } from "./reducers/CardsSlice";
+import { cardsSlice } from "./reducers/CardsSlice";
+import { searchSlice } from "./reducers/SearchSlice";
 
 export const rootAction = {
-  ...cardSlice.actions,
+  ...cardsSlice.actions,
+  ...searchSlice.actions,
 };

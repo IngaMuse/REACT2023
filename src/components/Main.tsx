@@ -4,44 +4,53 @@ import Cards from "./Cards/Cards";
 import Pagination from "./Pagination/Pagination";
 import LimitPage from "./Pagination/LimitPage";
 import { ICard } from "../types/card.types";
-import cardsApi from "./API/cardsApi";
 import Loader from "./Loader/Loader";
 import ErrorTest from "./Error/ErrorTest";
 import { useSearchParams, Link, useParams } from "react-router-dom";
-import { CardsContext, SearchContext } from "./Context/context";
+import { cardsAPI } from "../services/CardsService";
+import { useAppSelector } from "../hooks/redux";
 
 const Main = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
-  const [cards, setCards] = useState<ICard[] | []>([]);
-  const [search, setSearch] = useState(localStorage.getItem("search") || "");
+  //const [isLoading, setIsLoading] = useState(false);
+  // const [totalPages, setTotalPages] = useState(0);
+  //const [cards, setCards] = useState<ICard[] | []>([]);
+  //const [search, setSearch] = useState(localStorage.getItem("search") || "");
+
   const [searchParams, setSearchParams] = useSearchParams();
+  //const search = searchParams.get('q') || '';
   const page = searchParams.get("page") || "1";
   const limit = searchParams.get("limit") || "30";
   const params = useParams();
 
-  const loadCards = useCallback(async () => {
-    setIsLoading(true);
-    const [cards, totalPages] = await cardsApi.uploadCards(page, search, limit);
-    setCards(cards);
-    setIsLoading(false);
-    setTotalPages(totalPages);
-  }, [page, search, limit]);
+  // const loadCards = useCallback(async () => {
+  //   setIsLoading(true);
+  //   const [cards, totalPages] = await cardsApi.uploadCards(page, search, limit);
+  //   setCards(cards);
+  //   setIsLoading(false);
+  //   setTotalPages(totalPages);
+  // }, [page, search, limit]);
 
-  React.useEffect(() => {
-    loadCards();
-    if (searchParams.has("page")) searchParams.set("page", page);
-    else searchParams.append("page", page);
-    setSearchParams(searchParams);
-  }, [loadCards, page, search, limit, searchParams, setSearchParams]);
+  // React.useEffect(() => {
+  //   loadCards();
+  //   if (searchParams.has("page")) searchParams.set("page", page);
+  //   else searchParams.append("page", page);
+  //   setSearchParams(searchParams);
+  // }, [loadCards, page, search, limit, searchParams, setSearchParams]);
+
+  const search = useAppSelector((state) => state.search.search);
+
+  const { isLoading, data: cardsData } = cardsAPI.useGetCardsQuery({
+    page,
+    search,
+    limit,
+  });
+  const { cards, totalPages } = cardsData || { cards: [], totalPages: 0 };
 
   let link = "/?page=" + page;
   if (limit !== "30") link = link + "&limit=" + limit;
   const headerMain = () => (
     <>
-      <SearchContext.Provider value={[search, setSearch]}>
-        <Search submitSearch={loadCards} />
-      </SearchContext.Provider>
+      <Search />
       <ErrorTest />
       <LimitPage />
       <Pagination totalPages={totalPages} />
@@ -61,15 +70,13 @@ const Main = () => {
           {headerMain()}
         </Link>
       )}
-      <CardsContext.Provider value={cards}>
-        {!isLoading ? (
-          <Cards />
-        ) : (
-          <div className="main__loader">
-            <Loader />
-          </div>
-        )}
-      </CardsContext.Provider>
+      {!isLoading ? (
+        <Cards />
+      ) : (
+        <div className="main__loader">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };

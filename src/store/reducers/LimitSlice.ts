@@ -1,7 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+const searchParamsLimit = new URLSearchParams(window.location.search).get(
+  "limit",
+);
+
 const initialState = {
-  limit: "30",
+  limit: searchParamsLimit || "30",
 };
 
 export const limitSlice = createSlice({

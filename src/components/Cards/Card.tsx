@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import CardInfo from "./CardInfo";
+import { useAppSelector } from "../../hooks/redux";
 import "./style.css";
 
 const Card = ({ info, details }: CardProps) => {
   const params = useParams();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";
-  const limit = searchParams.get("limit") || "30";
+  const limit = useAppSelector((state) => state.limit.limit);
 
   if (info == null) {
     return <div className="cards__not">card not found</div>;

@@ -22,13 +22,10 @@ export const cardsAPI = api.injectEndpoints({
         if (getParams.page && getParams.limit) {
           params.skip = ((+getParams.page - 1) * +getParams.limit).toString();
         }
-        if (getParams.search) {
-          params.q = getParams.search;
-        }
+        params.q = getParams.search;
         if (getParams.limit) {
           params.limit = getParams.limit;
         }
-
         return {
           url: "/users/search?",
           params,
@@ -48,6 +45,9 @@ export const cardsAPI = api.injectEndpoints({
 
     getCard: builder.query({
       query: (id) => `/users/${id}`,
+      // transformResponse: (response: CardsResponse) => ({
+      //   card: response.users,
+      // }),
       providesTags: (result, error, id) => [{ type: "Cards", id }],
     }),
   }),

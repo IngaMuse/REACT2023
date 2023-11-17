@@ -4,6 +4,7 @@ import { cardsAPI } from "../services/CardsService";
 import { searchSlice } from "./reducers/SearchSlice";
 import { limitSlice } from "./reducers/LimitSlice";
 import { loadingSlice } from "./reducers/LoadingSlice";
+import { loadingDetailsSlice } from "./reducers/LoadingDetailsSlice";
 
 const rootReducer = combineReducers({
   cards: cardsSlice.reducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   search: searchSlice.reducer,
   limit: limitSlice.reducer,
   isLoading: loadingSlice.reducer,
+  isLoadingDetails: loadingDetailsSlice.reducer,
 });
 
 export const setupStore = () => {

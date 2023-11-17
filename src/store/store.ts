@@ -2,11 +2,15 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { cardsSlice } from "./reducers/CardsSlice";
 import { cardsAPI } from "../services/CardsService";
 import { searchSlice } from "./reducers/SearchSlice";
+import { limitSlice } from "./reducers/LimitSlice";
+import { loadingSlice } from "./reducers/LoadingSlice";
 
 const rootReducer = combineReducers({
   cards: cardsSlice.reducer,
   [cardsAPI.reducerPath]: cardsAPI.reducer,
   search: searchSlice.reducer,
+  limit: limitSlice.reducer,
+  isLoading: loadingSlice.reducer,
 });
 
 export const setupStore = () => {

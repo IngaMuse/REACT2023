@@ -3,10 +3,9 @@ import SearchButton from "./SearchButton";
 import { useSearchParams } from "react-router-dom";
 import "./style.css";
 import { useActions } from "../../hooks/redux";
-import { setSearch } from "../../store/reducers/SearchSlice";
 
 const Search = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(localStorage.getItem("search") || "");
   const [searchParams, setSearchParams] = useSearchParams();
   const { setSearch } = useActions();
 

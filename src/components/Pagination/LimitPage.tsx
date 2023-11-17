@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./style.css";
+import { useActions } from "../../hooks/redux";
 
 const LimitPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  let limit = searchParams.get("limit") || "30";
+  const [value, setValue] = useState(searchParams.get("limit") || "30");
+  const { setLimit } = useActions();
 
   const applyLimitParams = (limit: string) => {
     if (searchParams.has("limit")) {
@@ -18,11 +20,8 @@ const LimitPage = () => {
 
   const submitSearch = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    applyLimitParams(limit);
-  };
-
-  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    limit = event.currentTarget.value;
+    setLimit(value);
+    applyLimitParams(value);
   };
 
   return (
@@ -30,8 +29,9 @@ const LimitPage = () => {
       <input
         type="text"
         className="input limit__input"
+        value={value}
         placeholder="30"
-        onChange={onInputChange}
+        onChange={(e) => setValue(e.target.value)}
       />
       <button type="submit" className="button search__button">
         Change Limit Page

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import cardApi from "../API/cardApi";
 import { ICard } from "../../types/card.types";
 import Loader from "../Loader/Loader";
 import Card from "./Card";

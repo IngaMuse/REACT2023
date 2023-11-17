@@ -1,18 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import type { SearchState } from "../../types/search.types";
 
-const initialState: SearchState = {
-  search: localStorage.getItem("search") || "",
+const initialState = {
+  limit: "30",
 };
 
-export const searchSlice = createSlice({
+export const limitSlice = createSlice({
   name: "limit",
   initialState,
   reducers: {
-    setSearch(state, action: PayloadAction<string>) {
-      state.search = action.payload;
+    setLimit(state, action: PayloadAction<string>) {
+      state.limit = action.payload;
     },
   },
 });
 
-export const { setSearch } = searchSlice.actions;
+export const { setLimit } = limitSlice.actions;

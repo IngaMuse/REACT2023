@@ -4,12 +4,11 @@ import { Outlet } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
-import { CardsContext } from "../Context/context";
-import { useContext } from "react";
+import { useAppSelector } from "../../hooks/redux";
 import "./style.css";
 
 const Cards = () => {
-  const cards = useContext(CardsContext);
+  const cards = useAppSelector((state) => state.cards.cards);
   const params = useParams();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";

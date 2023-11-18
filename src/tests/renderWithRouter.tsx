@@ -1,15 +1,25 @@
-import { MemoryRouter } from "react-router-dom";
-import { Routing } from "../components/Routing";
+import React from "react";
 import { render } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+import { setupStore } from "../store/store";
 
-export const renderWithRouter = (
-  Component: JSX.Element,
-  initialRoute = "/",
-) => {
+const store = setupStore();
+
+export default (Component: JSX.Element, initialEntries = "/") => {
+  const route = {
+    path: initialEntries,
+    element: Component,
+  };
+  const config = {
+    initialEntries: [initialEntries],
+  };
+
+  const router = createMemoryRouter([route], config);
+
   return render(
-    <MemoryRouter initialEntries={[initialRoute]}>
-      <Routing />
-      {Component}
-    </MemoryRouter>,
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>,
   );
 };

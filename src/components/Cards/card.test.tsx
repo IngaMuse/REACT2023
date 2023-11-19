@@ -1,26 +1,21 @@
 import React from "react";
-import { screen, render } from "@testing-library/react";
-import { ICard } from "../../types/card.types";
+import { screen, waitFor, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Card from "./Card";
 import userEvent from "@testing-library/user-event";
-import { vi } from "vitest";
-import Cards from "./Cards";
 import CardPage from "./CardPage";
 import { cleanup } from "@testing-library/react";
 import renderWithRouter from "../../tests/renderWithRouter";
 import { cardMock } from "../../mocks/cardMock";
+import Main from "../Main";
+import { createMemoryRouter } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+import { setupStore } from "../../store/store";
 
+const store = setupStore();
 const card = cardMock;
-
-global.fetch = vi.fn(() =>
-  Promise.resolve({
-    json: () =>
-      Promise.resolve({
-        data: { card },
-      }),
-  }),
-) as unknown as typeof global.fetch;
 
 describe("Renders the relevant card data", () => {
   beforeEach(async () => {
@@ -61,26 +56,44 @@ describe("Renders the relevant card data", () => {
 
 describe("Renders the relevant card data", () => {
   it("clicking on a card opens a detailed and clicking triggers an additional API call", async () => {
-    renderWithRouter(<Card info={card} details={false} key={0} />);
-    const user = userEvent.setup();
-    const detailsLink = screen.getAllByRole("link");
-    user.click(detailsLink[0]);
-    expect(screen.getByTestId("detail")).toBeInTheDocument();
-    expect(fetch).toHaveBeenCalled();
+    const memoryRouter = createMemoryRouter(
+      [
+        {
+          path: "/",
+          element: <Main />,
+          children: [
+            {
+              path: "/",
+              element: <Outlet />,
+              children: [
+                {
+                  path: "details/:id",
+                  element: <CardPage />,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      { initialEntries: ["/"] },
+    );
+    render(
+      <Provider store={store}>
+        {" "}
+        <RouterProvider router={memoryRouter} />
+      </Provider>,
+    );
+    await waitFor(() => {
+      const user = userEvent.setup();
+      const detailsLink = screen.getAllByRole("link");
+      user.click(detailsLink[0]);
+    });
+    await waitFor(() => {
+      expect(screen.getByTestId("detail")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/blood group/i)).toBeInTheDocument();
+    });
   });
 });
-
-// const memoryRouter = createMemoryRouter(
-//   [
-//     {
-//       path: '/',
-//       element: <App />,
-//       loader: vi.fn(),
-//       children: [],
-//     },
-//   ],
-//   { initialEntries: [badRoute] }
-// );
-// render(<RouterProvider router={memoryRouter} />);
-// const { pathname } = memoryRouter.state.location;
-// expect(pathname).equal(badRoute);

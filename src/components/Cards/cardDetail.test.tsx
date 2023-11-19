@@ -1,41 +1,14 @@
 import React from "react";
-import { screen, render, waitFor } from "@testing-library/react";
-import { ICard } from "../../types/card.types";
-import { BrowserRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Card from "./Card";
 import userEvent from "@testing-library/user-event";
-import { vi } from "vitest";
 import CardPage from "./CardPage";
 import renderWithRouter from "../../tests/renderWithRouter";
+import { cardMock } from "../../mocks/cardMock";
 
 describe("Tests for the Detailed Card component", () => {
-  const card: ICard = {
-    id: 1,
-    firstName: "Terry",
-    lastName: "Medhurst",
-    age: "50",
-    birthDate: "2000-12-25",
-    height: "189",
-    weight: "75.4",
-    gender: "male",
-    image: "https://robohash.org/hicveldicta.png",
-    username: "atuny0",
-    email: "atuny0@sohu.com",
-    phone: "+63 791 675 8914",
-    bloodGroup: "A−",
-    eyeColor: "Green",
-  };
-
-  global.fetch = vi.fn(() =>
-    Promise.resolve({
-      json: () =>
-        Promise.resolve({
-          data: { card },
-        }),
-    }),
-  ) as unknown as typeof global.fetch;
-
+  const card = cardMock;
   beforeEach(async () => {
     renderWithRouter(<Card info={card} details={true} />);
   });

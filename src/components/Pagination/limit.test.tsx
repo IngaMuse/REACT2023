@@ -1,6 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, createEvent } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { screen, fireEvent, createEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import LimitPage from "./LimitPage";
 import renderWithRouter from "../../tests/renderWithRouter";

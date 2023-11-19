@@ -10,4 +10,9 @@ export const cardMock: ICard = {
   weight: "75.4",
   gender: "male",
   image: "https://robohash.org/hicveldicta.png",
+  username: "atuny0",
+  email: "atuny0@sohu.com",
+  phone: "+63 791 675 8914",
+  bloodGroup: "A−",
+  eyeColor: "Green",
 };

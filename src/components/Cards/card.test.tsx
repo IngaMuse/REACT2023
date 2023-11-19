@@ -1,30 +1,17 @@
 import React from "react";
 import { screen, render } from "@testing-library/react";
 import { ICard } from "../../types/card.types";
-import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
 import Card from "./Card";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import Cards from "./Cards";
-import { CardsContext } from "../Context/context";
 import CardPage from "./CardPage";
 import { cleanup } from "@testing-library/react";
-import { renderWithRouter } from "../../tests/renderWithRouter";
+import renderWithRouter from "../../tests/renderWithRouter";
+import { cardMock } from "../../mocks/cardMock";
 
-const card: ICard = {
-  id: 1,
-  firstName: "Terry",
-  lastName: "Medhurst",
-  age: "50",
-  birthDate: "2000-12-25",
-  height: "189",
-  weight: "75.4",
-  gender: "male",
-  image: "https://robohash.org/hicveldicta.png",
-};
-
-const cards = [card];
+const card = cardMock;
 
 global.fetch = vi.fn(() =>
   Promise.resolve({
@@ -37,11 +24,7 @@ global.fetch = vi.fn(() =>
 
 describe("Renders the relevant card data", () => {
   beforeEach(async () => {
-    render(
-      <BrowserRouter>
-        <Card info={card} details={false} key={0} />
-      </BrowserRouter>,
-    );
+    renderWithRouter(<Card info={card} details={false} key={0} />);
   });
   afterEach(cleanup);
 
@@ -71,23 +54,14 @@ describe("Renders the relevant card data", () => {
   });
 
   it("Tests for the Card component", async () => {
-    render(
-      <BrowserRouter>
-        <Card info={null} details={false} />
-      </BrowserRouter>,
-    );
+    renderWithRouter(<Card info={null} details={false} />);
     expect(screen.getByText(/card not found/)).toBeInTheDocument();
   });
 });
 
 describe("Renders the relevant card data", () => {
   it("clicking on a card opens a detailed and clicking triggers an additional API call", async () => {
-    renderWithRouter(
-      <CardsContext.Provider value={cards}>
-        <Cards />
-        <CardPage />
-      </CardsContext.Provider>,
-    );
+    renderWithRouter(<Card info={card} details={false} key={0} />);
     const user = userEvent.setup();
     const detailsLink = screen.getAllByRole("link");
     user.click(detailsLink[0]);
@@ -95,3 +69,18 @@ describe("Renders the relevant card data", () => {
     expect(fetch).toHaveBeenCalled();
   });
 });
+
+// const memoryRouter = createMemoryRouter(
+//   [
+//     {
+//       path: '/',
+//       element: <App />,
+//       loader: vi.fn(),
+//       children: [],
+//     },
+//   ],
+//   { initialEntries: [badRoute] }
+// );
+// render(<RouterProvider router={memoryRouter} />);
+// const { pathname } = memoryRouter.state.location;
+// expect(pathname).equal(badRoute);

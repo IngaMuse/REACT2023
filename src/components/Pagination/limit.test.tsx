@@ -3,14 +3,11 @@ import { render, screen, fireEvent, createEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
 import LimitPage from "./LimitPage";
+import renderWithRouter from "../../tests/renderWithRouter";
 
 describe("Limit Page", () => {
   beforeEach(async () => {
-    render(
-      <BrowserRouter>
-        <LimitPage />
-      </BrowserRouter>,
-    );
+    renderWithRouter(<LimitPage />);
   });
 
   it("renders Limit Page component", () => {

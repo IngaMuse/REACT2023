@@ -7,7 +7,7 @@ import Card from "./Card";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import CardPage from "./CardPage";
-import { renderWithRouter } from "../../tests/renderWithRouter";
+import renderWithRouter from "../../tests/renderWithRouter";
 
 describe("Tests for the Detailed Card component", () => {
   const card: ICard = {
@@ -37,19 +37,11 @@ describe("Tests for the Detailed Card component", () => {
   ) as unknown as typeof global.fetch;
 
   beforeEach(async () => {
-    render(
-      <BrowserRouter>
-        <Card info={card} details={true} />
-      </BrowserRouter>,
-    );
+    renderWithRouter(<Card info={card} details={true} />);
   });
 
   it("shows loader while cards are uploading", async () => {
-    const { container } = render(
-      <BrowserRouter>
-        <CardPage />
-      </BrowserRouter>,
-    );
+    const { container } = renderWithRouter(<CardPage />);
     const loader = container.querySelector(".main__loader");
     await waitFor(() => {
       expect(loader).toBeInTheDocument();

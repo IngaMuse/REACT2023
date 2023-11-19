@@ -15,7 +15,7 @@ import CardPage from "./components/Cards/CardPage";
 import ErrorPage from "./components/Error/ErrorPage";
 
 const store = setupStore();
-const router = createBrowserRouter(
+export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Layout />}>

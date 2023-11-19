@@ -45,9 +45,6 @@ export const cardsAPI = api.injectEndpoints({
 
     getCard: builder.query({
       query: (id) => `/users/${id}`,
-      // transformResponse: (response: CardsResponse) => ({
-      //   card: response.users,
-      // }),
       providesTags: (result, error, id) => [{ type: "Cards", id }],
     }),
   }),

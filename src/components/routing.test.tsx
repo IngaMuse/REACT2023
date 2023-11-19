@@ -2,16 +2,14 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { describe } from "vitest";
+import renderWithRouter from "../tests/renderWithRouter";
+import { MemoryRouter } from "react-router-dom";
+import { Layout } from "./Layout";
 import { Routing } from "./Routing";
-import { BrowserRouter, MemoryRouter } from "react-router-dom";
 
 describe("Routing App", () => {
   test("makes correct routing render app", async () => {
-    const { container } = render(
-      <BrowserRouter>
-        <Routing />
-      </BrowserRouter>,
-    );
+    const { container } = renderWithRouter(<Layout />);
     const mainClass = container.querySelector(".main");
     expect(mainClass).toBeInTheDocument();
   });

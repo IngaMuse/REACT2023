@@ -4,24 +4,17 @@ import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Pagination from "./Pagination";
 import "@testing-library/jest-dom";
+import renderWithRouter from "../../tests/renderWithRouter";
 
 describe("Pagination", () => {
   it("renders Pagination component", () => {
-    const { container } = render(
-      <BrowserRouter>
-        <Pagination totalPages={1} />
-      </BrowserRouter>,
-    );
+    const { container } = renderWithRouter(<Pagination totalPages={1} />);
     const pages = container.querySelector(".pages");
     expect(pages).toBeInTheDocument();
   });
 
   it("renders Pagination component with passed pages amount", () => {
-    const { container } = render(
-      <BrowserRouter>
-        <Pagination totalPages={10} />
-      </BrowserRouter>,
-    );
+    const { container } = renderWithRouter(<Pagination totalPages={10} />);
     const pages = container.querySelectorAll(".page");
     expect(pages.length).toBe(10);
   });

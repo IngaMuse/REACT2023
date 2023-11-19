@@ -17,7 +17,7 @@ const Main = () => {
   const { setLoading } = useActions();
   const { setCards } = useActions();
   const search: string = useAppSelector((state) => state.search.search);
-  const limit = useAppSelector((state) => state.limit.limit);
+  const limit: string = useAppSelector((state) => state.limit.limit);
 
   const {
     isLoading,

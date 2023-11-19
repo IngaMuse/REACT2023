@@ -19,3 +19,4 @@ export const limitSlice = createSlice({
 });
 
 export const { setLimit } = limitSlice.actions;
+export default limitSlice.reducer;

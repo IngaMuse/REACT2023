@@ -15,3 +15,4 @@ export const loadingDetailsSlice = createSlice({
 });
 
 export const { setLoadingDetails } = loadingDetailsSlice.actions;
+export default loadingDetailsSlice.reducer;

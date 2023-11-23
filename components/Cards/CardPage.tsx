@@ -1,43 +1,32 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Loader from "../Loader/Loader";
 import Card from "./Card";
 import Link from "next/link";
 import { useAppSelector } from "../../lib/hooks/redux";
 import { cardsAPI } from "../../lib/services/CardsService";
 import { useActions } from "../../lib/hooks/redux";
-//import "./style.css";
+import styles from "../../styles/cards.module.css";
 
 const CardPage = () => {
-  // const params = useParams();
-  // const [searchParams] = useSearchParams();
   const page = useAppSelector((state) => state.page.page);
   const limit = useAppSelector((state) => state.limit.limit);
-  const { setLoadingDetails } = useActions();
 
-  let link = "/?page=" + page;
-  if (limit !== "30") link = link + "&limit=" + limit;
+  let link = "/?page=" + page + "&limit=" + limit;
   //const id = params.id?.toString() || "";
   const id = "";
 
   const { isLoading, isSuccess, data: cardData } = cardsAPI.useGetCardQuery(id);
 
-  // useEffect(() => {
-  //   if (isLoading) {
-  //     setLoadingDetails(true);
-  //   }
-  //   if (isSuccess) {
-  //     setLoadingDetails(false);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [params, isLoading, isSuccess]);
-
   return (
-    <div className="card__page card__column" data-testid="detail">
-      <Link href={link} className="card__drop"></Link>
+    <div
+      className={`${styles.card__page} ${styles.card__column}`}
+      data-testid="detail"
+    >
+      <Link href={link} className={styles.card__drop}></Link>
       {!isLoading ? (
         <Card info={cardData} details={true} />
       ) : (
-        <div className="main__loader">
+        <div className={styles.main__loader}>
           <Loader />
         </div>
       )}

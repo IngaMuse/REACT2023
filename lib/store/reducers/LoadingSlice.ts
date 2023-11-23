@@ -17,7 +17,7 @@ export const loadingSlice = createSlice({
     [HYDRATE]: (state, action) => {
       return {
         ...state,
-        ...action.payload.auth,
+        ...action.payload.loadingSlice,
       };
     },
   },

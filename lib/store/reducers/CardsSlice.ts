@@ -18,10 +18,20 @@ export const cardsSlice = createSlice({
     [HYDRATE]: (state, action) => {
       return {
         ...state,
-        ...action.payload.auth,
+        ...action.payload.cards,
       };
     },
   },
+
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(HYDRATE, (state, action) => {
+  //       return {
+  //               ...state.cards,
+  //               ...action.payload.cards,
+  //             };
+  //     })
+  // }
 });
 
 export const { setCards } = cardsSlice.actions;

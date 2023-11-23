@@ -22,7 +22,7 @@ export const limitSlice = createSlice({
     [HYDRATE]: (state, action) => {
       return {
         ...state,
-        ...action.payload.auth,
+        ...action.payload.limit,
       };
     },
   },

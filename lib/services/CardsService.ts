@@ -18,7 +18,6 @@ export const cardsAPI = api.injectEndpoints({
     getCards: builder.query<GetCardsResponse, GetParams>({
       query: (getParams) => {
         const params = {} as ServerParams;
-
         if (getParams.page && getParams.limit) {
           params.skip = ((+getParams.page - 1) * +getParams.limit).toString();
         }

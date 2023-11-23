@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "../../styles/search.module.css";
 
 const ErrorTest = function () {
   const [error, setError] = useState(false);
@@ -12,7 +13,7 @@ const ErrorTest = function () {
   }
 
   return (
-    <button onClick={handleClick} className="button search__button">
+    <button onClick={handleClick} className={styles.search__button}>
       Test Error
     </button>
   );

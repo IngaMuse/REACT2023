@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 
-.page--selected {
+.page__selected {
   cursor: default;
   pointer-events: none;
   background-color: rgba(116, 2, 2, 0.8);

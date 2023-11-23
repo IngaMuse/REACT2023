@@ -6,7 +6,7 @@ import Link from "next/link";
 //import { useSearchParams } from "react-router-dom";
 import CardInfo from "./CardInfo";
 import { useAppSelector } from "../../lib/hooks/redux";
-//import "./style.css";
+import styles from "../../styles/cards.module.css";
 
 const Card = ({ info, details }: CardProps) => {
   //const params = useParams();
@@ -15,7 +15,7 @@ const Card = ({ info, details }: CardProps) => {
   const limit = useAppSelector((state) => state.limit.limit);
 
   if (info == null) {
-    return <div className="cards__not">card not found</div>;
+    return <div className={styles.cards__not}>card not found</div>;
   }
 
   let link = ("/details/" + info.id).toString() + "?page=" + page;
@@ -23,11 +23,13 @@ const Card = ({ info, details }: CardProps) => {
 
   return (
     //params.id == undefined ? (
-    //   <Link to={link} className="card">
+    //   <Link to={link} className={styles.card}>
     //     {<CardInfo info={info} details={details} />}
     //   </Link>
     // ) : (
-    <div className="card">{<CardInfo info={info} details={details} />}</div>
+    <div className={styles.card}>
+      {<CardInfo info={info} details={details} />}
+    </div>
     //);
   );
 };

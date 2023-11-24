@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../../styles/search.module.css";
-import { useActions } from "../../lib/hooks/redux";
 
-const Search = () => {
-  const [value, setValue] = useState("");
-  const { setSearch } = useActions();
+const Search = ({ searchValue }: { searchValue: string | string[] }) => {
+  const [value, setValue] = useState<string | string[]>(searchValue);
   const router = useRouter();
+  const { query } = router;
+  const { limit, search } = query;
 
   const submitSearch = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    //setSearch(value);
+    console.log("1111");
     router.push({
-      query: { search: value },
-    });
-    router.push({
-      query: { page: "1" },
+      query: { search: value, page: "1", limit: limit || "30" },
     });
   };
 

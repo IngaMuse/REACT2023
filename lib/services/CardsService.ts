@@ -1,5 +1,7 @@
 import { api } from "./api";
 import type { CardsResponse, GetCardsResponse } from "../../types/card.types";
+import { setCards, setTotalPages } from "../store/reducers/CardsSlice";
+import { setCard } from "../store/reducers/CardSlice";
 
 interface GetParams {
   page: string;
@@ -40,11 +42,22 @@ export const cardsAPI = api.injectEndpoints({
           id: `${getParams.page}-${getParams.search}-${getParams.limit}`,
         },
       ],
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        const mainData = await queryFulfilled;
+        const { cards, totalPages } = mainData.data;
+        dispatch(setCards(cards));
+        dispatch(setTotalPages(totalPages));
+      },
     }),
 
     getCard: builder.query({
       query: (id) => `/users/${id}`,
       providesTags: (result, error, id) => [{ type: "Cards", id }],
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        const mainData = await queryFulfilled;
+        const { card } = mainData.data;
+        dispatch(setCard(card));
+      },
     }),
   }),
 });

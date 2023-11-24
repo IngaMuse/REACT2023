@@ -1,21 +1,18 @@
 import React from "react";
-import { useAppSelector } from "../../lib/hooks/redux";
 import styles from "../../styles/pagination.module.css";
-import { useActions } from "../../lib/hooks/redux";
-import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 interface PaginationProps {
   totalPages: number;
+  page: string;
 }
 
-const Pagination = ({ totalPages }: PaginationProps) => {
-  const page = useAppSelector((state) => state.page.page);
-  //const { setPage } = useActions();
+const Pagination = ({ totalPages, page }: PaginationProps) => {
   const router = useRouter();
+  const { query } = router;
 
   const applyPageParams = (page: string) => {
     router.push({
-      query: { page: page },
+      query: { ...query, page: page },
     });
   };
 

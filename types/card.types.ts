@@ -1,4 +1,5 @@
 export interface CardsProps {
+  totalPages: number;
   cards: ICard[] | [];
 }
 
@@ -34,4 +35,9 @@ export interface CardsResponse {
 export interface GetCardsResponse {
   cards: ICard[];
   totalPages: number;
+}
+
+export interface ServerSide {
+  cards: CardsProps;
+  details: ICard | null;
 }

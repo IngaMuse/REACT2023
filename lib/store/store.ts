@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { cardsSlice } from "./reducers/CardsSlice";
+import { cardSlice } from "./reducers/CardSlice";
 import { cardsAPI } from "../services/CardsService";
 import { searchSlice } from "./reducers/SearchSlice";
 import { pageSlice } from "./reducers/PageSlice";
@@ -10,6 +11,7 @@ import { createWrapper } from "next-redux-wrapper";
 
 const rootReducer = combineReducers({
   cards: cardsSlice.reducer,
+  card: cardSlice.reducer,
   [cardsAPI.reducerPath]: cardsAPI.reducer,
   search: searchSlice.reducer,
   page: pageSlice.reducer,
@@ -26,7 +28,6 @@ export const makeStore = () => {
   });
 };
 
-//export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];

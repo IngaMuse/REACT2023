@@ -4,8 +4,8 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { rootAction } from "../store/root.action";
 
 export const useActions = () => {
-  const dispacth = useDispatch();
-  return bindActionCreators(rootAction, dispacth);
+  const dispatch = useDispatch();
+  return bindActionCreators(rootAction, dispatch);
 };
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

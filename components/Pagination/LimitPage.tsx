@@ -1,34 +1,23 @@
 import React, { useState } from "react";
 import styles from "../../styles/pagination.module.css";
 import stylesSearch from "../../styles/search.module.css";
-import { useAppSelector } from "../../lib/hooks/redux";
-import { useActions } from "../../lib/hooks/redux";
 import { useRouter } from "next/router";
+import { FormEvent } from "react";
 
-const LimitPage = () => {
-  const [value, setValue] = useState(
-    useAppSelector((state) => state.limit.limit),
-  );
-  //const { setLimit } = useActions();
+const LimitPage = ({ limit }: { limit: string | string[] }) => {
+  const [value, setValue] = useState<string | string[]>(limit);
   const router = useRouter();
+  const { query } = router;
 
-  const applyLimitParams = (limit: string) => {
-    router.push({
-      query: { limit: limit },
-    });
-    router.push({
-      query: { page: "1" },
-    });
-  };
-
-  const submitSearch = (event: React.SyntheticEvent) => {
+  const submitLimit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    //setLimit(value);
-    applyLimitParams(value);
+    router.push({
+      query: { ...query, page: "1", limit: value },
+    });
   };
 
   return (
-    <form role="form" onSubmit={submitSearch}>
+    <form role="form" onSubmit={submitLimit}>
       <input
         type="text"
         className={styles.limit__input}

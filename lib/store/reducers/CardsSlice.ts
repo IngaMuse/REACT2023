@@ -3,6 +3,7 @@ import type { ICard, CardsProps } from "../../../types/card.types";
 import { HYDRATE } from "next-redux-wrapper";
 
 const initialState: CardsProps = {
+  totalPages: 0,
   cards: [],
 };
 
@@ -13,27 +14,22 @@ export const cardsSlice = createSlice({
     setCards(state, action: PayloadAction<ICard[]>) {
       state.cards = action.payload;
     },
+    setTotalPages(state, action: PayloadAction<number>) {
+      state.totalPages = action.payload;
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
       return {
         ...state,
         ...action.payload.cards,
+        ...action.payload.totalPages,
       };
     },
   },
-
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(HYDRATE, (state, action) => {
-  //       return {
-  //               ...state.cards,
-  //               ...action.payload.cards,
-  //             };
-  //     })
-  // }
 });
 
 export const { setCards } = cardsSlice.actions;
+export const { setTotalPages } = cardsSlice.actions;
 export const selectCards = (state: CardsProps) => state.cards;
 export default cardsSlice.reducer;

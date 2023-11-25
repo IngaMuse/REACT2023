@@ -41,3 +41,7 @@ export interface ServerSide {
   cards: CardsProps;
   details: ICard | null;
 }
+
+export interface GetCardResponse {
+  card: ICard;
+}

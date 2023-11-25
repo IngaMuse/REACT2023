@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 const CardPage = ({ cardDetails }: { cardDetails: ICard | null }) => {
   const router = useRouter();
   const { query } = router;
-  const { details, page, limit, ...otherQuery } = query;
+  const { id, page, limit, ...otherQuery } = query;
 
   const handleClose = () => {
     router.push({
@@ -22,12 +22,14 @@ const CardPage = ({ cardDetails }: { cardDetails: ICard | null }) => {
 
   return (
     <div
-      className={`${styles.card__page} ${styles.card__column}`}
+      className={`${styles.card__page} ${styles.card__column} ${id}`}
       data-testid="detail"
-      onClick={handleClose}
     >
+      <div className={styles.background} onClick={handleClose}></div>
       <div className={styles.card__drop} onClick={handleClose}></div>
-      <Card info={cardDetails} details={true} />
+      <div className={styles.card__zet}>
+        <Card info={cardDetails} details={true} />
+      </div>
     </div>
   );
 };

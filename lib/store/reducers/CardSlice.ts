@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import type { ICard, CardsProps } from "../../../types/card.types";
+import type { ICard } from "../../../types/card.types";
 import { HYDRATE } from "next-redux-wrapper";
 
 interface CardState {

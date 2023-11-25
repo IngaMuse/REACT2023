@@ -19,10 +19,8 @@ const Cards = (props: Cards) => {
     cards.map((card) => <Card key={card.id} info={card} details={false} />);
 
   return (
-    <div className={styles.cards__page}>
-      <div className={`${styles.cards__list} ${styles.card__column}`}>
-        {cardsList}
-      </div>
+    <div className={`${styles.cards__list} ${styles.card__column}`}>
+      {cardsList}
     </div>
   );
 };

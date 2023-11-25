@@ -1,5 +1,10 @@
 import { api } from "./api";
-import type { CardsResponse, GetCardsResponse } from "../../types/card.types";
+import type {
+  CardsResponse,
+  GetCardResponse,
+  GetCardsResponse,
+  ICard,
+} from "../../types/card.types";
 import { setCards, setTotalPages } from "../store/reducers/CardsSlice";
 import { setCard } from "../store/reducers/CardSlice";
 
@@ -50,9 +55,14 @@ export const cardsAPI = api.injectEndpoints({
       },
     }),
 
-    getCard: builder.query({
-      query: (id) => `/users/${id}`,
-      providesTags: (result, error, id) => [{ type: "Cards", id }],
+    getCard: builder.query<GetCardResponse, string | string[]>({
+      query: (id) => ({
+        url: `/users/${id}`,
+      }),
+      transformResponse: (response: ICard) => ({
+        card: response,
+      }),
+      providesTags: (result, error, id) => [{ type: "Cards", id: `${id}` }],
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         const mainData = await queryFulfilled;
         const { card } = mainData.data;

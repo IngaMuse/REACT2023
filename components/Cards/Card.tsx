@@ -13,7 +13,7 @@ const Card = ({ info, details }: CardProps) => {
     return <div className={styles.cards__not}>card not found</div>;
   }
 
-  return (
+  return !details ? (
     <Link
       href={{
         pathname: `/details/${info.id}`,
@@ -23,6 +23,10 @@ const Card = ({ info, details }: CardProps) => {
     >
       {<CardInfo info={info} details={details} />}
     </Link>
+  ) : (
+    <div className={styles.card}>
+      {<CardInfo info={info} details={details} />}
+    </div>
   );
 };
 

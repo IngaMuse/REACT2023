@@ -6,11 +6,10 @@ const Search = ({ searchValue }: { searchValue: string | string[] }) => {
   const [value, setValue] = useState<string | string[]>(searchValue);
   const router = useRouter();
   const { query } = router;
-  const { limit, search } = query;
+  const { limit } = query;
 
   const submitSearch = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log("1111");
     router.push({
       query: { search: value, page: "1", limit: limit || "30" },
     });

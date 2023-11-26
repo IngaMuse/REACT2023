@@ -1,0 +1,9 @@
+main {
+  font-family: "Roboto";
+  font-weight: 400;
+  width: 100%;
+  max-width: 100rem;
+  box-sizing: border-box;
+  padding: 0 3rem;
+  margin: 0 auto;
+}

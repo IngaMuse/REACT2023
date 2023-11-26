@@ -1,5 +1,6 @@
 import reducer from "./LoadingSlice";
+import { it, expect } from "vitest";
 
-test("should return the initial state", () => {
+it("should return the initial state", () => {
   expect(reducer(undefined, { type: undefined })).toEqual({ isLoading: false });
 });

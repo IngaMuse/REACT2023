@@ -16,9 +16,10 @@ const CardInfo = ({ info, details }: CardProps) => {
             alt={info.firstName}
             loading="eager"
             priority={true}
+            data-testid="image"
           />
         </div>
-        <div className={styles.card__content}>
+        <div className={styles.card__content} data-testid="card">
           <div className={styles.card__name}>
             {info?.firstName + " " + info?.lastName}
           </div>

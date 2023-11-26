@@ -25,6 +25,7 @@ const Pagination = ({ totalPages, page }: PaginationProps) => {
     pageLinks.push(
       <div
         className={classPage.join(" ")}
+        data-testid="page"
         key={key}
         onClick={() => applyPageParams(key)}
       >

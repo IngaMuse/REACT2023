@@ -26,7 +26,11 @@ const CardPage = ({ cardDetails }: { cardDetails: ICard | null }) => {
       data-testid="detail"
     >
       <div className={styles.background} onClick={handleClose}></div>
-      <div className={styles.card__drop} onClick={handleClose}></div>
+      <div
+        className={styles.card__drop}
+        onClick={handleClose}
+        data-testid="close"
+      ></div>
       <div className={styles.card__zet}>
         <Card info={cardDetails} details={true} />
       </div>

@@ -1,24 +1,18 @@
 import React from "react";
-import { screen, waitFor } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Card from "./Card";
 import userEvent from "@testing-library/user-event";
-import CardPage from "./CardPage";
-import renderWithRouter from "../../tests/renderWithRouter";
-import { cardMock } from "../../mocks/cardMock";
+import { describe, it, expect, beforeEach } from "vitest";
+import { cardMock } from "@/tests/cardMock";
+import DetailsPage from "@/pages/details/[id]";
+import { responseDetailsMock } from "@/tests/responseMock";
+import mockRouter from "next-router-mock";
 
 describe("Tests for the Detailed Card component", () => {
   const card = cardMock;
   beforeEach(async () => {
-    renderWithRouter(<Card info={card} details={true} />);
-  });
-
-  it("shows loader while cards are uploading", async () => {
-    const { container } = renderWithRouter(<CardPage />);
-    const loader = container.querySelector(".main__loader");
-    await waitFor(() => {
-      expect(loader).toBeInTheDocument();
-    });
+    render(<Card info={card} details={true} />);
   });
 
   it("renders card with username", () => {
@@ -32,12 +26,14 @@ describe("Tests for the Detailed Card component", () => {
   it("renders card with phone", () => {
     expect(screen.getByText(card.phone!)).toBeInTheDocument();
   });
+});
 
+describe("Tests for the Detailed Card component", () => {
   it("clicking the close button hides the component", async () => {
-    const pathRoute = "/details/1";
-    renderWithRouter(<CardPage />, pathRoute);
+    mockRouter.push("/details/1?page=1&limit=30&id=1");
+    render(<DetailsPage response={responseDetailsMock} />);
     const user = userEvent.setup();
-    const closeButton = screen.getAllByRole("link")[0];
+    const closeButton = screen.getByTestId("close");
     expect(screen.queryAllByTestId("detail")[0]).toBeInTheDocument();
     user.click(closeButton);
     expect(screen.queryAllByTestId("detail")[0]).toBeNull;

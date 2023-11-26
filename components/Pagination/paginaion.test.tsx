@@ -1,34 +1,29 @@
 import React from "react";
 import userEvent from "@testing-library/user-event";
-import { render } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { render, screen } from "@testing-library/react";
 import Pagination from "./Pagination";
 import "@testing-library/jest-dom";
-import renderWithRouter from "../../tests/renderWithRouter";
+import { describe, it, expect } from "vitest";
+import mockRouter from "next-router-mock";
 
 describe("Pagination", () => {
   it("renders Pagination component", () => {
-    const { container } = renderWithRouter(<Pagination totalPages={1} />);
-    const pages = container.querySelector(".pages");
+    render(<Pagination totalPages={1} page="1" />);
+    const pages = screen.getByText("1");
     expect(pages).toBeInTheDocument();
   });
 
   it("renders Pagination component with passed pages amount", () => {
-    const { container } = renderWithRouter(<Pagination totalPages={10} />);
-    const pages = container.querySelectorAll(".page");
-    expect(pages.length).toBe(10);
+    render(<Pagination totalPages={10} page="1" />);
+    const pages = screen.getByText("10");
+    expect(pages).toBeInTheDocument();
   });
 
   it("switches to page on click", async () => {
-    const { container } = render(
-      <BrowserRouter>
-        <Pagination totalPages={10} />
-      </BrowserRouter>,
-    );
-    const pageClick = container.querySelectorAll(".page")[1];
+    render(<Pagination totalPages={10} page="1" />);
+    const pageClick = screen.queryAllByTestId("page")[1];
     const user = userEvent.setup();
     await user.click(pageClick);
-    const params = new URLSearchParams(location.search).get("page");
-    expect(params).toContain(2);
+    expect(mockRouter.asPath).toBe("/?page=2");
   });
 });

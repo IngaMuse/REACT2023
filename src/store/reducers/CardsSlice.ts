@@ -9,11 +9,11 @@ export const cardsSlice = createSlice({
   name: "cards",
   initialState,
   reducers: {
-    setCards(state, action: PayloadAction<FormValues[]>) {
-      state.cards = action.payload;
+    addCard(state, action: PayloadAction<FormValues>) {
+      state.cards.push(action.payload);
     },
   },
 });
 
-export const { setCards } = cardsSlice.actions;
+export const { addCard } = cardsSlice.actions;
 export default cardsSlice.reducer;

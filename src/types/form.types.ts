@@ -19,5 +19,20 @@ export type FormErrors = {
 };
 
 export interface ICards {
-  cards: FormValues[];
+  cards: ICard[];
 }
+
+export interface CardProps {
+  info: ICard;
+}
+
+export type ICard = {
+  id: number;
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+  gender: string;
+  image: string;
+  country: string;
+};

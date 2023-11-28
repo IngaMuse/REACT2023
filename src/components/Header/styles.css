@@ -1,0 +1,45 @@
+.header {
+  width: 100%;
+  padding-top: 3rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 126rem;
+  box-sizing: border-box;
+  padding: 0 3rem;
+  margin: 0 auto;
+}
+
+.header__container {
+  position: relative;
+  height: 6rem;
+  display: flex;
+  gap: 3rem;
+  padding: 0 3rem;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 5rem;
+  background: lightgray;
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  list-style: none;
+}
+
+.page__title {
+  color: black;
+  position: absolute;
+  left: 3rem;
+}
+
+.header__link {
+  color: darkgrey;
+  text-decoration: none;
+  transition: color 0.1s ease;
+}
+
+.header__link--active {
+  color: black;
+  pointer-events: none;
+  cursor: default;
+}

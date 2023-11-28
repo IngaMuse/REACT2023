@@ -14,14 +14,17 @@ import ErrorPage from "./components/Error/ErrorPage";
 import Main from "./components/Main";
 import FormOld from "./components/Form/FormOld";
 import FormNew from "./components/FormNew/FormNew";
+import Root from "./components/Root/Root";
 
 const store = setupStore();
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<Main />} />
-      <Route path="/form-old" element={<FormOld />} />
-      <Route path="/form-new" element={<FormNew />} />
+      <Route path="/" element={<Root />}>
+        <Route index element={<Main />} />
+        <Route path="/form-old" element={<FormOld />} />
+        <Route path="/form-new" element={<FormNew />} />
+      </Route>
       <Route path="/*" element={<ErrorPage />} />
     </>,
   ),

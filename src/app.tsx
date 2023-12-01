@@ -12,8 +12,8 @@ import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
 import ErrorPage from "./components/Error/ErrorPage";
 import Main from "./components/Main";
-import FormOld from "./components/Form/FormOld";
-import FormNew from "./components/FormNew/FormNew";
+import FormOld from "./components/Form/FormUncontrolled/FormOld";
+import FormNew from "./components/Form/FormNew";
 import Root from "./components/Root/Root";
 
 const store = setupStore();

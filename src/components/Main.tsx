@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useActions, useAppSelector } from "../hooks/redux";
-import Cards from "./Cards/cards";
+import Cards from "./Cards/Cards";
 
 const Main = () => {
   //const { addCard } = useActions();

@@ -4,7 +4,7 @@ export type FormValues = {
   age: number;
   email: string;
   password: string;
-  passwordRepeat: string;
+  passwordConfirm: string;
   gender: string;
   accept: string;
   image: FileList;
@@ -32,7 +32,9 @@ export type ICard = {
   age: number;
   email: string;
   password: string;
+  passwordConfirm: string;
   gender: string;
+  accept: string;
   image: string;
   country: string;
 };

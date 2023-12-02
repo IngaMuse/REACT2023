@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useActions, useAppSelector } from "../../../hooks/redux";
 import "../styles.css";
-import { schema } from "../../../yup/yup";
+import { passwordSchema, schema } from "../../../yup/yup";
 import { ValidationError } from "yup";
 import InputFile from "./InputFile";
 import AutocompleteCountry from "./AutocompleteCountry";
@@ -22,6 +22,7 @@ const FormOld = () => {
 
   const { removeValidationError } = useActions();
   const { setValidationError } = useActions();
+  const { setCreatedForm } = useActions();
 
   const nameError = useAppSelector((state) => state.error.name);
   const ageError = useAppSelector((state) => state.error.age);
@@ -36,11 +37,12 @@ const FormOld = () => {
   const { addCard } = useActions();
   const cards = useAppSelector((state) => state.cards.cards);
   const navigate = useNavigate();
+  const maxStrength = 4;
+  const [password, setPassword] = useState(maxStrength);
 
   const handleClick = (event: React.SyntheticEvent) => {
     event.preventDefault();
     handleValidation();
-    console.log("submit");
   };
 
   const handleValidation = async () => {
@@ -63,10 +65,25 @@ const FormOld = () => {
         },
         { abortEarly: false },
       );
+      setPassword(maxStrength);
       handleSubmit();
     } catch (e: unknown) {
       if (e instanceof ValidationError) {
         setValidationError(e.inner);
+      }
+    } finally {
+      try {
+        await passwordSchema.validate(
+          {
+            password: passwordRef.current?.value,
+          },
+          { abortEarly: false },
+        );
+        setPassword(maxStrength);
+      } catch (e) {
+        if (e instanceof ValidationError) {
+          setPassword(maxStrength - e.inner.length);
+        }
       }
     }
   };
@@ -77,7 +94,6 @@ const FormOld = () => {
         ? await convertToBase64(imageRef.current.files[0])
         : "";
     const accept = acceptRef.current?.value ? "yes" : "";
-
     const card: ICard = {
       id: cards.length,
       name: nameRef.current?.value || "",
@@ -90,8 +106,8 @@ const FormOld = () => {
       image: base64 || "",
       country: countryRef.current?.value || "",
     };
-    console.log(card);
     addCard(card);
+    setCreatedForm(true);
     navigate("/");
   };
 
@@ -143,6 +159,11 @@ const FormOld = () => {
         />
         <span className="text_danger">
           {passwordError ? passwordError : ""}
+        </span>
+        <span>
+          {passwordRef.current?.value && password
+            ? `Password strength: ${password * 25}%`
+            : " "}
         </span>
         <br />
         <br />

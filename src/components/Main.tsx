@@ -1,14 +1,31 @@
 import React, { useEffect } from "react";
-import { useAppSelector } from "../hooks/redux";
+import { useActions, useAppSelector } from "../hooks/redux";
 import Cards from "./Cards/Cards";
 
 const Main = () => {
   const cards = useAppSelector((state) => state.cards.cards);
-  useEffect(() => {}, []);
+  const createdForm = useAppSelector((state) => state.cards.createdForm);
+  const { setCreatedForm } = useActions();
+
+  const wait = (milliseconds: number) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, milliseconds);
+    });
+  };
+
+  useEffect(() => {
+    const checkForm = async () => {
+      if (createdForm) {
+        await wait(3000);
+        setCreatedForm(false);
+      }
+    };
+    checkForm();
+  }, [createdForm, setCreatedForm]);
 
   return (
     <div className="main">
-      <Cards cards={cards} />
+      <Cards cards={cards} createdForm={createdForm} />
     </div>
   );
 };

@@ -47,3 +47,12 @@ export const schema = object({
       },
     ),
 });
+
+export const passwordSchema = object({
+  password: string()
+    .required("This is a required field")
+    .matches(/^(?=.*[0-9])/, "Must contain one number")
+    .matches(/^(?=.*[A-ZА-Я])/, "Must contain one uppercased letter")
+    .matches(/^(?=.*[a-zа-я])/, "Must contain one lowercased letter")
+    .matches(/^(?=.*[!@#%&$^*()?><|+=])/, "Must contain one special character"),
+});

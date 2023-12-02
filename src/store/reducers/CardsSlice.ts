@@ -1,8 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ICards, ICard } from "../../types/form.types";
+import { ICard } from "../../types/form.types";
 
-const initialState: ICards = {
+export interface IForm {
+  cards: ICard[];
+  createdForm: boolean;
+}
+
+const initialState: IForm = {
   cards: [],
+  createdForm: false,
 };
 
 export const cardsSlice = createSlice({
@@ -12,8 +18,12 @@ export const cardsSlice = createSlice({
     addCard(state, action: PayloadAction<ICard>) {
       state.cards.push(action.payload);
     },
+    setCreatedForm(state, action) {
+      state.createdForm = action.payload;
+    },
   },
 });
 
 export const { addCard } = cardsSlice.actions;
+export const { setCreatedForm } = cardsSlice.actions;
 export default cardsSlice.reducer;

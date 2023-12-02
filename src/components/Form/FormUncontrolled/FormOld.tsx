@@ -1,11 +1,13 @@
 import React, { useRef } from "react";
 import { useActions, useAppSelector } from "../../../hooks/redux";
-
 import "../styles.css";
 import { schema } from "../../../yup/yup";
 import { ValidationError } from "yup";
 import InputFile from "./InputFile";
 import AutocompleteCountry from "./AutocompleteCountry";
+import { ICard } from "../../../types/form.types";
+import { useNavigate } from "react-router";
+import { convertToBase64 } from "./convertImageToBase64";
 
 const FormOld = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -13,8 +15,7 @@ const FormOld = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
-  const genderMaleRef = useRef<HTMLInputElement>(null);
-  const genderFemaleRef = useRef<HTMLInputElement>(null);
+  const genderRef = useRef<HTMLInputElement>(null);
   const acceptRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
@@ -29,15 +30,20 @@ const FormOld = () => {
   const passwordConfirmError = useAppSelector(
     (state) => state.error.passwordConfirm,
   );
+  const genderError = useAppSelector((state) => state.error.gender);
   const acceptError = useAppSelector((state) => state.error.accept);
+
+  const { addCard } = useActions();
+  const cards = useAppSelector((state) => state.cards.cards);
+  const navigate = useNavigate();
 
   const handleClick = (event: React.SyntheticEvent) => {
     event.preventDefault();
+    handleValidation();
     console.log("submit");
-    handleSubmit();
   };
 
-  const handleSubmit = async () => {
+  const handleValidation = async () => {
     removeValidationError();
     try {
       await schema.validate(
@@ -47,6 +53,7 @@ const FormOld = () => {
           email: emailRef.current?.value,
           password: passwordRef.current?.value,
           passwordConfirm: passwordConfirmRef.current?.value,
+          gender: genderRef.current?.value,
           accept: acceptRef.current?.checked,
           image: {
             size: imageRef.current?.files?.["0"]?.size || undefined,
@@ -56,11 +63,36 @@ const FormOld = () => {
         },
         { abortEarly: false },
       );
+      handleSubmit();
     } catch (e: unknown) {
       if (e instanceof ValidationError) {
         setValidationError(e.inner);
       }
     }
+  };
+
+  const handleSubmit = async () => {
+    const base64 =
+      imageRef.current && imageRef.current.files
+        ? await convertToBase64(imageRef.current.files[0])
+        : "";
+    const accept = acceptRef.current?.value ? "yes" : "";
+
+    const card: ICard = {
+      id: cards.length,
+      name: nameRef.current?.value || "",
+      age: ageRef.current?.value || "",
+      email: emailRef.current?.value || "",
+      password: passwordRef.current?.value || "",
+      passwordConfirm: passwordConfirmRef.current?.value || "",
+      gender: genderRef.current?.value || "",
+      accept: accept,
+      image: base64 || "",
+      country: countryRef.current?.value || "",
+    };
+    console.log(card);
+    addCard(card);
+    navigate("/");
   };
 
   return (
@@ -129,24 +161,30 @@ const FormOld = () => {
         <br />
         <label>Gender: </label>
         <div className="input_checkbox">
-          <label>Male</label>
+          <label htmlFor="male">Male</label>
           <input
             className="input_box radio"
             type="radio"
             name="gender"
-            value="male"
-            ref={genderMaleRef}
-            defaultChecked
+            id="male"
+            onChange={() => {
+              genderRef.current!.value = "male";
+            }}
+            ref={genderRef}
           />
-          <label>Female</label>
+          <label htmlFor="female">Female</label>
           <input
             className="input_box radio"
             type="radio"
             name="gender"
-            value="female"
-            ref={genderFemaleRef}
+            id="female"
+            onChange={() => {
+              genderRef.current!.value = "female";
+            }}
+            ref={genderRef}
           />
         </div>
+        <span className="text_danger">{genderError ? genderError : ""}</span>
         <br />
         <label>Accept T&C</label>
         <div className="input_checkbox">

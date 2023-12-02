@@ -1,4 +1,8 @@
 import { object, string, number, boolean, ref } from "yup";
+import { setupStore } from "../store/store";
+const store = setupStore();
+
+const countries = store.getState().country.countries;
 
 export const schema = object({
   name: string()
@@ -21,14 +25,25 @@ export const schema = object({
   passwordConfirm: string()
     .required("This is a required field")
     .oneOf([ref("password")], "Passwords must match"),
+  gender: string().oneOf(["male", "female"], "You must chose gender"),
   accept: boolean().oneOf([true], "You must accept T&C"),
   image: object({
     size: number()
       .required("This is a required field")
-      .max(200000, "The size must be no more 200 kB"),
+      .max(204800, "The size must be no more 200 kB"),
     type: string()
       .required("This is a required field")
       .oneOf(["image/png", "image/jpeg"], "Format must be PNG or JPEG"),
   }),
-  country: string().required("This is a required field"),
+  country: string()
+    .required("This is a required field")
+    .test(
+      "includes in stores countries",
+      "Chose country from countries list",
+      (value) => {
+        return countries
+          .map((el) => el.toLowerCase())
+          .includes(value.toLowerCase());
+      },
+    ),
 });

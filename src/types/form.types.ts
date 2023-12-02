@@ -29,7 +29,7 @@ export interface CardProps {
 export type ICard = {
   id: number;
   name: string;
-  age: number;
+  age: string;
   email: string;
   password: string;
   passwordConfirm: string;

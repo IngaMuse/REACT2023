@@ -1,0 +1,110 @@
+.form {
+  margin-top: 1rem;
+  padding: 1rem 6rem 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5rem;
+  background: lightgray;
+  box-sizing: border-box;
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+.input_box {
+  width: 100%;
+  height: 100%;
+  min-height: 2.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  min-width: 20rem;
+  padding-left: 1.4rem;
+  padding-bottom: 0.3rem;
+  outline: none;
+  box-sizing: border-box;
+  background-color: #e2e1e3;
+}
+
+.input_checkbox {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  gap: 3rem;
+}
+
+.radio {
+  min-height: 2rem;
+}
+
+.text_danger {
+  color: red;
+  max-width: 10rem;
+}
+
+.submit {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit_button {
+  padding: 1rem 2rem;
+  border-radius: 5rem;
+  background: #e2e1e3;
+}
+
+input[type="file"] {
+  position: absolute;
+  width: calc(100% + 100px);
+  height: 100%;
+  top: 0;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.input__file {
+  color: darkgray;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  border: 1px dashed darkgray;
+}
+
+.autoContainer {
+  background-color: #e2e1e3;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 500px;
+  padding: 5px;
+  padding-left: 1.4rem;
+}
+
+@media (min-width: 1050px) and (max-width: 1250px) {
+  .input_box {
+    min-width: 14rem;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1049px) {
+  .input_box {
+    min-width: 7rem;
+  }
+}

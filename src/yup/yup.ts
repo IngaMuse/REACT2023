@@ -1,15 +1,18 @@
-import { object, string, number, boolean, ref } from "yup";
+import { object, string, number, boolean, ref, mixed } from "yup";
 import { setupStore } from "../store/store";
 const store = setupStore();
 
 const countries = store.getState().country.countries;
+const MAX_FILE_SIZE = 204800;
 
 export const schema = object({
+  id: number(),
   name: string()
     .required("This is a required field")
     .strict(true)
-    .uppercase("First names letter must be a capital letter"),
+    .matches(/^(?=.*[A-ZА-Я])/, "Name must begin with an uppercase letter"),
   age: number()
+    .typeError("Age must be a number")
     .required("This is a required field")
     .integer("Age must be a number")
     .positive("Age must be no negative number"),
@@ -25,16 +28,23 @@ export const schema = object({
   passwordConfirm: string()
     .required("This is a required field")
     .oneOf([ref("password")], "Passwords must match"),
-  gender: string().oneOf(["male", "female"], "You must chose gender"),
+  gender: string()
+    .required("This is a required field")
+    .oneOf(["male", "female"], "You must chose gender"),
   accept: boolean().oneOf([true], "You must accept T&C"),
-  image: object({
-    size: number()
-      .required("This is a required field")
-      .max(204800, "The size must be no more 200 kB"),
-    type: string()
-      .required("This is a required field")
-      .oneOf(["image/png", "image/jpeg"], "Format must be PNG or JPEG"),
-  }),
+  image: mixed<FileList>()
+    .test("required", "This is a required field", (files) => {
+      if (!files || !files[0]) return false;
+      return files?.length == 1;
+    })
+    .test("is-valid-type", "Not a valid image type", (files) => {
+      if (!files || !files[0]) return false;
+      return files[0].type === "image/jpeg" || files[0].type === "image/png";
+    })
+    .test("is-valid-size", "Max allowed size is 200KB", (files) => {
+      if (!files || !files[0]) return false;
+      return files[0].size <= MAX_FILE_SIZE;
+    }),
   country: string()
     .required("This is a required field")
     .test(

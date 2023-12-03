@@ -57,10 +57,7 @@ const FormOld = () => {
           passwordConfirm: passwordConfirmRef.current?.value,
           gender: genderRef.current?.value,
           accept: acceptRef.current?.checked,
-          image: {
-            size: imageRef.current?.files?.["0"]?.size || undefined,
-            type: imageRef.current?.files?.["0"]?.type || undefined,
-          },
+          image: imageRef.current?.files,
           country: countryRef.current?.value,
         },
         { abortEarly: false },

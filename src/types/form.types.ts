@@ -1,13 +1,13 @@
 export type FormValues = {
-  id: number;
+  id?: number;
   name: string;
   age: number;
   email: string;
   password: string;
   passwordConfirm: string;
   gender: string;
-  accept: string;
-  image: FileList;
+  accept?: boolean;
+  image?: FileList;
   country: string;
 };
 
